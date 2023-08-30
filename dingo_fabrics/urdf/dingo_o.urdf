@@ -16,6 +16,61 @@
   <material name="black">
     <color rgba="0.15 0.15 0.15 1.0"/>
   </material>
+  <link name="world">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="base_link_x">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="base_link_y">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <link name="base_link_theta">
+    <inertial>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <mass value="1.0"/>
+      <inertia ixx="1" ixy="0" ixz="0" iyy="1" iyz="0" izz="1"/>
+    </inertial>
+  </link>
+  <joint name="joint_x" type="prismatic">
+    <parent link="world"/>
+    <child link="base_link_x"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="100" lower="-50" upper="50" velocity="2"/>
+  </joint>
+  <joint name="joint_y" type="prismatic">
+    <parent link="base_link_x"/>
+    <child link="base_link_y"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="100" lower="-50" upper="50" velocity="2"/>
+  </joint>
+  <joint name="joint_theta" type="revolute">
+    <parent link="base_link_y"/>
+    <child link="base_link_theta"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" lower="-50" upper="50" velocity="2"/>
+  </joint>
+  <joint name="base_chassis_joint" type="fixed">
+    <parent link="base_link_theta"/>
+    <child link="base_link"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <axis xyz="0 1 0"/>
+  </joint>
   <link name="front_left_wheel_link">
     <visual>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
@@ -36,21 +91,12 @@
       <inertia ixx="0.0003234" ixy="0" ixz="0" iyy="0.0003234" iyz="0" izz="0.0004901"/>
     </inertial>
   </link>
-  <joint name="front_left_wheel" type="continuous">
+  <joint name="front_left_wheel" type="fixed">
     <parent link="chassis_link"/>
     <child link="front_left_wheel_link"/>
     <origin rpy="0 0 0" xyz="0.285 0.2104 0.035145"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <transmission name="front_left_wheel_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="front_left_wheel">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="front_left_actuator">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
   <link name="front_right_wheel_link">
     <visual>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
@@ -71,21 +117,12 @@
       <inertia ixx="0.0003234" ixy="0" ixz="0" iyy="0.0003234" iyz="0" izz="0.0004901"/>
     </inertial>
   </link>
-  <joint name="front_right_wheel" type="continuous">
+  <joint name="front_right_wheel" type="fixed">
     <parent link="chassis_link"/>
     <child link="front_right_wheel_link"/>
     <origin rpy="0 0 0" xyz="0.285 -0.2104 0.035145"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <transmission name="front_right_wheel_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="front_right_wheel">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="front_right_actuator">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
   <link name="rear_left_wheel_link">
     <visual>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
@@ -106,21 +143,12 @@
       <inertia ixx="0.0003234" ixy="0" ixz="0" iyy="0.0003234" iyz="0" izz="0.0004901"/>
     </inertial>
   </link>
-  <joint name="rear_left_wheel" type="continuous">
+  <joint name="rear_left_wheel" type="fixed">
     <parent link="chassis_link"/>
     <child link="rear_left_wheel_link"/>
     <origin rpy="0 0 0" xyz="-0.285 0.2104 0.035145"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <transmission name="rear_left_wheel_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="rear_left_wheel">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="rear_left_actuator">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
   <link name="rear_right_wheel_link">
     <visual>
       <origin rpy="1.5707963267948966 0 0" xyz="0 0 0"/>
@@ -141,21 +169,12 @@
       <inertia ixx="0.0003234" ixy="0" ixz="0" iyy="0.0003234" iyz="0" izz="0.0004901"/>
     </inertial>
   </link>
-  <joint name="rear_right_wheel" type="continuous">
+  <joint name="rear_right_wheel" type="fixed">
     <parent link="chassis_link"/>
     <child link="rear_right_wheel_link"/>
     <origin rpy="0 0 0" xyz="-0.285 -0.2104 0.035145"/>
     <axis xyz="0 1 0"/>
   </joint>
-  <transmission name="rear_right_wheel_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="rear_right_wheel">
-      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="rear_right_actuator">
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
   <link name="base_link"/>
   <joint name="base_link_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -166,14 +185,14 @@
     <visual>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://dingo_description/meshes/omni_chassis.dae"/>
+        <mesh filename="meshes/omni_chassis.dae"/>
       </geometry>
-      <material name="dark_grey"/>
+      <material name="yellow"/>
     </visual>
     <collision>
       <origin xyz="0 0 0"/>
       <geometry>
-        <mesh filename="package://dingo_description/meshes/omni_chassis_collision.stl"/>
+        <mesh filename="meshes/omni_chassis_collision.stl"/>
       </geometry>
     </collision>
     <inertial>
@@ -250,99 +269,17 @@
     <parent link="rear_b_mount"/>
     <child link="rear_mount"/>
   </joint>
-  <!--
-    Mounting point for accessories on the front bumper.
-    Use with caution, but thin sensors (e.g Raspberry Pi NoIR camera) could
-    be mounted here for low-budget, front/rear-facing capabilities
-  -->
   <link name="front_bumper_mount"/>
   <joint name="front_bumper_mount_joint" type="fixed">
     <origin rpy="0 0 0" xyz="0.34159 0 0.0345115"/>
     <parent link="chassis_link"/>
     <child link="front_bumper_mount"/>
   </joint>
-  <gazebo>
-    <plugin filename="libgazebo_ros_control.so" name="gazebo_ros_control">
-      <robotNamespace>/</robotNamespace>
-    </plugin>
-  </gazebo>
-  <gazebo>
-    <plugin filename="libhector_gazebo_ros_imu.so" name="imu_controller">
-      <robotNamespace>/</robotNamespace>
-      <updateRate>50.0</updateRate>
-      <bodyName>imu_link</bodyName>
-      <topicName>imu/data</topicName>
-      <accelDrift>0.005 0.005 0.005</accelDrift>
-      <accelGaussianNoise>0.005 0.005 0.005</accelGaussianNoise>
-      <rateDrift>0.005 0.005 0.005 </rateDrift>
-      <rateGaussianNoise>0.005 0.005 0.005 </rateGaussianNoise>
-      <headingDrift>0.005</headingDrift>
-      <headingGaussianNoise>0.005</headingGaussianNoise>
-    </plugin>
-  </gazebo>
-  <gazebo reference="base_link">
-    <turnGravityOff>false</turnGravityOff>
-  </gazebo>
-  <gazebo reference="chassis_link">
-    <turnGravityOff>false</turnGravityOff>
-  </gazebo>
-  <gazebo reference="imu_link">
-    <turnGravityOff>false</turnGravityOff>
-  </gazebo>
-  <gazebo>
-    <plugin filename="libridgeback_ros_force_based_move.so" name="dingo_ros_force_based_move">
-      <robotNamespace>/</robotNamespace>
-      <commandTopic>dingo_velocity_controller/cmd_vel</commandTopic>
-      <odometryTopic>odom</odometryTopic>
-      <odometryFrame>odom</odometryFrame>
-      <odometryRate>50.0</odometryRate>
-      <robotBaseFrame>base_link</robotBaseFrame>
-      <cmdVelTimeOut>0.25</cmdVelTimeOut>
-      <!-- Don't publish a transform: the controller does it. -->
-      <publishOdometryTf>0</publishOdometryTf>
-      <yaw_velocity_p_gain>500.0</yaw_velocity_p_gain>
-      <x_velocity_p_gain>10000.0</x_velocity_p_gain>
-      <y_velocity_p_gain>10000.0</y_velocity_p_gain>
-    </plugin>
-  </gazebo>
-  <gazebo reference="front_left_wheel_link">
-    <material>Gazebo/DarkGrey</material>
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-  </gazebo>
-  <gazebo reference="front_right_wheel_link">
-    <material>Gazebo/DarkGrey</material>
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-  </gazebo>
-  <gazebo reference="rear_left_wheel_link">
-    <material>Gazebo/DarkGrey</material>
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-  </gazebo>
-  <gazebo reference="rear_right_wheel_link">
-    <material>Gazebo/DarkGrey</material>
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
-  </gazebo>
-  <!--
-    As you add to this URDF, please be aware that both the robot and
-    simulation include it. You must retain compatibility with all of
-    the following launch files:
-
-    dingo_viz/launch/view_model.launch
-    dingo_gazebo/launch/dingo_world.launch
-    dingo_base/launch/base.launch
-  -->
   <material name="aluminum">
     <color rgba="0.5 0.5 0.5 1"/>
   </material>
   <material name="plastic">
     <color rgba="0.1 0.1 0.1 1"/>
   </material>
-  <!-- This file is a placeholder which is included by default from
-       dingo.urdf.xacro. If a robot is being customized and requires
-       additional URDF, set the DINGO_URDF_EXTRAS environment variable
-       to the full path of the file you would like included. -->
 </robot>
 
