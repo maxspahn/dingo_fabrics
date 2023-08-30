@@ -1,3 +1,3 @@
-[submodule "dingo"]
-	path = dingo
+[submodule "ros_ws/src/dingo"]
+	path = ros_ws/src/dingo
 	url = git@github.com:dingo-cpr/dingo.git
