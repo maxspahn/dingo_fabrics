@@ -1,0 +1,3 @@
+[submodule "cpr-indoornav-dingo"]
+	path = cpr-indoornav-dingo
+	url = git@github.com:clearpathrobotics/cpr-indoornav-dingo.git
